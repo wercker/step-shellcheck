@@ -1,0 +1,24 @@
+name: shellcheck
+version: 1.0.0
+description: Step to run shellcheck
+keywords:
+  - bash
+  - sh
+properties:
+  files:
+    type: string
+    required: false
+    default: "*.sh"
+  exclude:
+    type: string
+    required: false
+  format:
+    type: string
+    required: false
+  shell:
+    type: string
+    required: false
+  separator:
+    type: string
+    required: false
+    default: " "

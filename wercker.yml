@@ -1,0 +1,43 @@
+box: wercker/default
+
+build:
+    steps:
+        - shellcheck:
+            files: run.sh
+
+        - script:
+            name: set version
+            code: |
+                export SHELLCHECK_VERSION="0.3.5"
+                echo "Installing version $SHELLCHECK_VERSION of shellcheck"
+
+        - script:
+            name: install cabal
+            code: |
+                sudo apt-get update
+                sudo apt-get install cabal-install
+
+        - script:
+            name: update cabal
+            code: |
+                cabal update
+                cabal install cabal-install
+
+        - script:
+            name: build shellcheck
+            code: |
+                curl -L https://github.com/koalaman/shellcheck/archive/v$SHELLCHECK_VERSION.tar.gz > /tmp/shellcheck.tar.gz
+                mkdir /tmp/shellcheck/
+                tar xzvf /tmp/shellcheck.tar.gz -C /tmp/shellcheck/
+                cd /tmp/shellcheck/shellcheck-$SHELLCHECK_VERSION/
+                cabal install
+
+        - script:
+            name: prepare output
+            code: |
+                mv ~/.cabal/bin/shellcheck $WERCKER_ROOT/shellcheck
+                rm -rf $WERCKER_ROOT/.git
+
+        - script:
+            name: version
+            code: $WERCKER_ROOT/shellcheck -V
