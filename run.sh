@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 main() {
   "$WERCKER_STEP_ROOT"/shellcheck -V
 
