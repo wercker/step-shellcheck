@@ -1,4 +1,4 @@
-box: wercker/default
+box: debian:stable-slim
 
 build:
     steps:
@@ -8,14 +8,11 @@ build:
         - script:
             name: set version
             code: |
-                export SHELLCHECK_VERSION="0.3.5"
+                export SHELLCHECK_VERSION="0.4.6"
                 echo "Installing version $SHELLCHECK_VERSION of shellcheck"
 
-        - script:
-            name: install cabal
-            code: |
-                sudo apt-get update
-                sudo apt-get install cabal-install
+        - install-packages:
+                packages: curl zlib1g-dev cabal-install
 
         - script:
             name: update cabal
@@ -41,3 +38,13 @@ build:
         - script:
             name: version
             code: $WERCKER_ROOT/shellcheck -V
+
+publish:
+  steps:
+    - install-packages:
+        packages: ca-certificates
+
+    - publish-step:
+        auth_token: $STEPS_AUTH_TOKEN
+        owner: wercker
+

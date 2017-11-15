@@ -1,0 +1,24 @@
+name: shellcheck
+version: 2.0.0
+summary: Step to run shellcheck
+tags:
+  - bash
+  - sh
+properties:
+- name: files
+  type: string
+  required: false
+  default: "*.sh"
+- name: exclude
+  type: string
+  required: false
+- name: format
+  type: string
+  required: false
+- name: shell
+  type: string
+  required: false
+- name: separator
+  type: string
+  required: false
+  default: " "
